@@ -34,14 +34,15 @@ def display_file():
     iiif_manifest = generate_iiif_manifest(mmif_str)
     with open(os.path.join('temp', 'manifests', 'manifest.json'), 'w') as mani:
         mani.write(iiif_manifest)
-    return display_iiif(mmif_str)
+    return display_iiif()
 
 
 def upload_display(filename):
-    f = open("temp/" + filename)
-    mmif_str = f.read()
-    f.close()
-    return display_iiif(mmif_str)
+    raise NotImplementedError
+    # f = open("temp/" + filename)
+    # mmif_str = f.read()
+    # f.close()
+    # return display_iiif()
 
 
 @app.route('/upload', methods=['GET', 'POST'])
