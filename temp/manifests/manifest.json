@@ -31,7 +31,7 @@
                                             "choiceHint": "user",
                                             "items": [
                                                 {
-                                                    "id": "http://localhost:5000/static/cpb-aacip-507-0z70v8b343.mp4",
+                                                    "id": "/var/archive/video/cpb-aacip-29-00ns1swq.h264.mp4",
                                                     "type": "Video",
                                                     "label": "High",
                                                     "format": "video/mp4"
