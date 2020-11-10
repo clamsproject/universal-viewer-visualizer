@@ -22,7 +22,7 @@ def send_temp(path):
 
 
 @app.route('/media/<path:path>')
-def send_temp(path):
+def send_media(path):
     return send_from_directory("media", path)
 
 
