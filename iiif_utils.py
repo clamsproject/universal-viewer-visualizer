@@ -1,5 +1,4 @@
-import mmif
-from mmif import AnnotationTypes
+
 
 def generate_iiif_manifest(mmif_str):
     # mmif_obj = mmif.Mmif(mmif_str)
