@@ -1,8 +1,15 @@
+import mmif
+from mmif import AnnotationTypes
+
 def generate_iiif_manifest(mmif_str):
-    # generate mmif_obj from string
-    # get all views with timeframe annotations from mmif obj
-    # for all timeframe annotations
-    # generate a iiif thing
+    # mmif_obj = mmif.Mmif(mmif_str)
+    # # get all views with timeframe annotations from mmif obj
+    # tf_views = mmif_obj.get_all_views_contain(AnnotationTypes.TimeFrame.value)
+    # # for all timeframe annotations
+    #
+    # for view in tf_views:
+    #     # get
+    # # generate a iiif thing
     return '''{
     "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners",
     "type": "Manifest",
@@ -36,7 +43,7 @@ def generate_iiif_manifest(mmif_str):
                                             "choiceHint": "user",
                                             "items": [
                                                 {
-                                                    "id": "https://0.0.0.0:5000/temp/media/video/cpb-aacip-507-0z70v8b343.mp4",
+                                                    "id": "/var/archive/video/cpb-aacip-507-0z70v8b343.mp4",
                                                     "type": "Video",
                                                     "label": "High",
                                                     "format": "video/mp4"
@@ -78,3 +85,4 @@ def generate_iiif_manifest(mmif_str):
         }
     ]
 }'''
+

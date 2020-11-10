@@ -1,14 +1,12 @@
-import json
 import os
 import requests
-import tempfile
 
 from flask import Flask, request, render_template, flash, redirect, send_from_directory
 from werkzeug.utils import secure_filename
 
 from iiif_utils import *
 
-app = Flask(__name__, static_url_path="")
+app = Flask(__name__)
 
 
 @app.route('/uv/<path:path>')
@@ -19,11 +17,6 @@ def send_js(path):
 @app.route('/temp/<path:path>')
 def send_temp(path):
     return send_from_directory("temp", path)
-
-
-@app.route('/media/<path:path>')
-def send_media(path):
-    return send_from_directory("media", path)
 
 
 def display_iiif():
@@ -81,8 +74,5 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    if os.path.isdir("/var/archive"):
-        os.symlink("/var/archive/", "/app/media")
-
     # TODO (krim @ 10/1/19): parameterize port number
     app.run(port=5000, host='0.0.0.0', debug=True)
