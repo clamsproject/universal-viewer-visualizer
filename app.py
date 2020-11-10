@@ -19,11 +19,6 @@ def send_js(path):
     return send_from_directory("uv", path)
 
 
-@app.route('/media/<path:path>')
-def send_js(path):
-    return send_from_directory(os.path.join("var/archive"), path)
-
-
 @app.route('/temp/<path:path>')
 def send_temp(path):
     return send_from_directory("temp", path)
@@ -84,5 +79,7 @@ def hello_world():
 
 
 if __name__ == '__main__':
+    if os.path.isdir("/var/archive"):
+        os.symlink("/var/archive", "temp/media")
     # TODO (krim @ 10/1/19): parameterize port number
     app.run(port=5000, host='0.0.0.0', debug=True)
