@@ -3,9 +3,6 @@ import os
 import requests
 import tempfile
 
-from clams import Mmif
-from clams.vocab import MediaTypes, AnnotationTypes
-from lapps.discriminators import Uri
 from flask import Flask, request, render_template, flash, redirect, send_from_directory
 from werkzeug.utils import secure_filename
 
