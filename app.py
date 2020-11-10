@@ -81,8 +81,7 @@ def hello_world():
 if __name__ == '__main__':
     import shutil
     if os.path.isdir("/var/archive"):
-        os.mkdir("temp/media")
-        shutil.copytree("/var/archive/video", "temp/media/video")
+        os.symlink("/var/archive/", "temp/media")
 
     # TODO (krim @ 10/1/19): parameterize port number
     app.run(port=5000, host='0.0.0.0', debug=True)
