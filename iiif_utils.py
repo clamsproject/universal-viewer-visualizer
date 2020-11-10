@@ -43,7 +43,7 @@ def generate_iiif_manifest(mmif_str):
                                             "choiceHint": "user",
                                             "items": [
                                                 {
-                                                    "id": "/var/archive/video/cpb-aacip-507-0z70v8b343.mp4",
+                                                    "id": "https://0.0.0.0:5000/static/video/cpb-aacip-29-00ns1swq.h264.mp4"",
                                                     "type": "Video",
                                                     "label": "High",
                                                     "format": "video/mp4"

@@ -74,5 +74,7 @@ def hello_world():
 
 
 if __name__ == '__main__':
+    import shutil
+    shutil.copy("/var/archive/video/cpb-aacip-29-00ns1swq.h264.mp4", "static/video/cpb-aacip-29-00ns1swq.h264.mp4")
     # TODO (krim @ 10/1/19): parameterize port number
     app.run(port=5000, host='0.0.0.0', debug=True)
