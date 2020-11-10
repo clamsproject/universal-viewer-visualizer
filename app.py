@@ -19,6 +19,11 @@ def send_js(path):
     return send_from_directory("uv", path)
 
 
+@app.route('/media/<path:path>')
+def send_js(path):
+    return send_from_directory(os.path.join("var/archive"), path)
+
+
 @app.route('/temp/<path:path>')
 def send_temp(path):
     return send_from_directory("temp", path)
