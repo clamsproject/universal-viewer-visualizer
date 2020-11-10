@@ -21,6 +21,11 @@ def send_temp(path):
     return send_from_directory("temp", path)
 
 
+@app.route('/media/<path:path>')
+def send_temp(path):
+    return send_from_directory("media", path)
+
+
 def display_iiif():
     return render_template('player_page.html')
 
@@ -76,9 +81,8 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    import shutil
     if os.path.isdir("/var/archive"):
-        os.symlink("/var/archive/", "media")
+        os.symlink("/var/archive/", "/app/media")
 
     # TODO (krim @ 10/1/19): parameterize port number
     app.run(port=5000, host='0.0.0.0', debug=True)
