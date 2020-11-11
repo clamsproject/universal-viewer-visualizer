@@ -64,10 +64,12 @@ def generate_iiif_manifest(mmif_str):
                 }
             ],
         }
-        shutil.copyfile(
-            f"{document_path}",
-            f"static{document_path}",
-        )
+        if not os.path.isfile(f"static{document_path}"):
+            shutil.copyfile(
+                f"{document_path}",
+                # f"/Users/kelleylynch/data/clams/video/{os.path.basename(document_path)}",
+                f"static{document_path}"
+            )
         iiif_json["sequences"][0]["canvases"].append(canvas)
         break # todo currently only supports single document, needs more work to align canvas values
 
