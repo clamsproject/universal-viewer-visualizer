@@ -76,7 +76,7 @@ def generate_iiif_manifest(mmif_str):
     # # get all views with timeframe annotations from mmif obj
     tf_views = mmif_obj.get_all_views_contain(AnnotationTypes.TimeFrame.value)
 
-    for id, view in enumerate(tf_views):
+    for id, view in enumerate(tf_views, start=1):
         for annotation in view.annotations:
             if annotation.at_type == AnnotationTypes.TimeFrame.value:
                 if annotation.properties["unit"] != "frame":
