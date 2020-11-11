@@ -94,7 +94,7 @@ def generate_iiif_manifest(mmif_str):
                     "label": f"{frame_type}",
                     "members": [
                         {
-                            "id": f"mmif_example_manifest.json/canvas/{1}t={start_sec},{end_sec}",
+                            "id": f"mmif_example_manifest.json/canvas/{1}#t={start_sec},{end_sec}",
                         # need to align id here to support more than one document
                             "type": "Canvas"
                         }
