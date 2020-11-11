@@ -64,7 +64,7 @@ def generate_iiif_manifest(mmif_str):
         }
         shutil.copyfile(
             f"{document_path}",
-            f"static/{document_path}",
+            f"static{document_path}",
         )
         iiif_json["sequences"][0]["canvases"].append(canvas)
 
