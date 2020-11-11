@@ -25,8 +25,10 @@ def display_iiif():
 
 @app.route('/display')
 def display_file():
-    mmif_str = requests.get(request.args["file"]).text
-    # mmif_str = open("temp/mmif/cpb-aacip-507-0z70v8b343.mp4.mmif").read()
+    try:
+        mmif_str = requests.get(request.args["file"]).text
+    except:
+        mmif_str = open("temp/mmif/cpb-aacip-507-0z70v8b343.mp4.mmif").read()
     generate_iiif_manifest(mmif_str)
     return display_iiif()
 
