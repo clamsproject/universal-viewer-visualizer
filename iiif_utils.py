@@ -1,5 +1,6 @@
 
 
+from flask import url_for
 def generate_iiif_manifest(mmif_str):
     # mmif_obj = mmif.Mmif(mmif_str)
     # # get all views with timeframe annotations from mmif obj
@@ -9,79 +10,81 @@ def generate_iiif_manifest(mmif_str):
     # for view in tf_views:
     #     # get
     # # generate a iiif thing
-    return '''{
-    "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners",
-    "type": "Manifest",
-    "label": "Sample Newshour",
-    "description": "A sample Newshour Video",
-    "sequences": [
-        {
-            "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/sequence/1",
-            "type": "Sequence",
-            "canvases": [
-                {
-                    "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/canvas/1",
-                    "type": "Canvas",
-                    "label": "A sample Newshour Video",
-                    "description": "a sample newshour video from the aapb",
-                    "height": 360, 
-                    "width": 480, 
-                    "duration": 660,
-                    "content": [
-                        {
-                            "id": "...",
-                            "type": "AnnotationPage",
-                            "items": [
-                                {
-                                    "id": "...",
-                                    "type": "Annotation",
-                                    "motivation": "painting",
-                                    "body": [
-                                        {
-                                            "type": "Choice",
-                                            "choiceHint": "user",
-                                            "items": [
-                                                {
-                                                    "id": "https://0.0.0.0:5000/static/video/cpb-aacip-29-00ns1swq.h264.mp4",
-                                                    "type": "Video",
-                                                    "label": "High",
-                                                    "format": "video/mp4"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    "target": "http://dlib.indiana.edu/iiif_av/canvas/1"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "structures": [
-        {
-            "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/range/3",
-            "type": "Range",
-            "label": "SMPTE Bars",
-            "members": [
-                {
-                    "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/canvas/1#t=0,59",
-                    "type": "Canvas"
-                }
-            ]
-        },
-        {
-            "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/range/3",
-            "type": "Range",
-            "label": "Slate",
-            "members": [
-                {
-                    "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/canvas/1#t=60,112",
-                    "type": "Canvas"
-                }
-            ]
-        }
-    ]
-}'''
+    url = url_for('static', filename='video/cpb-aacip-29-00ns1swq.h264.mp4')
+
+    return ('{\n'
+            '    "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners",\n'
+            '    "type": "Manifest",\n'
+            '    "label": "Sample Newshour",\n'
+            '    "description": "A sample Newshour Video",\n'
+            '    "sequences": [\n'
+            '        {\n'
+            '            "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/sequence/1",\n'
+            '            "type": "Sequence",\n'
+            '            "canvases": [\n'
+            '                {\n'
+            '                    "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/canvas/1",\n'
+            '                    "type": "Canvas",\n'
+            '                    "label": "A sample Newshour Video",\n'
+            '                    "description": "a sample newshour video from the aapb",\n'
+            '                    "height": 360, \n'
+            '                    "width": 480, \n'
+            '                    "duration": 660,\n'
+            '                    "content": [\n'
+            '                        {\n'
+            '                            "id": "...",\n'
+            '                            "type": "AnnotationPage",\n'
+            '                            "items": [\n'
+            '                                {\n'
+            '                                    "id": "...",\n'
+            '                                    "type": "Annotation",\n'
+            '                                    "motivation": "painting",\n'
+            '                                    "body": [\n'
+            '                                        {\n'
+            '                                            "type": "Choice",\n'
+            '                                            "choiceHint": "user",\n'
+            '                                            "items": [\n'
+            '                                                {\n'
+            '                                                    "id": "' + url + '",\n'
+            '                                                    "type": "Video",\n'
+            '                                                    "label": "High",\n'
+            '                                                    "format": "video/mp4"\n'
+            '                                                }\n'
+            '                                            ]\n'
+            '                                        }\n'
+            '                                    ],\n'
+            '                                    "target": "http://dlib.indiana.edu/iiif_av/canvas/1"\n'
+            '                                }\n'
+            '                            ]\n'
+            '                        }\n'
+            '                    ]\n'
+            '                }\n'
+            '            ]\n'
+            '        }\n'
+            '    ],\n'
+            '    "structures": [\n'
+            '        {\n'
+            '            "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/range/3",\n'
+            '            "type": "Range",\n'
+            '            "label": "SMPTE Bars",\n'
+            '            "members": [\n'
+            '                {\n'
+            '                    "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/canvas/1#t=0,59",\n'
+            '                    "type": "Canvas"\n'
+            '                }\n'
+            '            ]\n'
+            '        },\n'
+            '        {\n'
+            '            "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/range/3",\n'
+            '            "type": "Range",\n'
+            '            "label": "Slate",\n'
+            '            "members": [\n'
+            '                {\n'
+            '                    "id": "http://dlib.indiana.edu/iiif_av/lunchroom_manners/canvas/1#t=60,112",\n'
+            '                    "type": "Canvas"\n'
+            '                }\n'
+            '            ]\n'
+            '        }\n'
+            '    ]\n'
+            '}')
 

@@ -23,10 +23,10 @@ def display_iiif():
     return render_template('player_page.html')
 
 
-@app.route('/display', methods=["GET"])
+@app.route('/display')
 def display_file():
-    mmif_str = requests.get(request.args["file"]).text
-    iiif_manifest = generate_iiif_manifest(mmif_str)
+    # mmif_str = requests.get(request.args["file"]).text
+    iiif_manifest = generate_iiif_manifest(None)
     with open(os.path.join('temp', 'manifests', 'manifest.json'), 'w') as mani:
         mani.write(iiif_manifest)
     return display_iiif()
@@ -75,6 +75,6 @@ def hello_world():
 
 if __name__ == '__main__':
     import shutil
-    shutil.copyfile("/var/archive/video/cpb-aacip-29-00ns1swq.h264.mp4", "static/video/cpb-aacip-29-00ns1swq.h264.mp4")
+    # shutil.copyfile("/var/archive/video/cpb-aacip-29-00ns1swq.h264.mp4", "static/video/cpb-aacip-29-00ns1swq.h264.mp4")
     # TODO (krim @ 10/1/19): parameterize port number
-    app.run(port=5000, host='0.0.0.0', debug=True)
+    app.run(port=5000, debug=True)
