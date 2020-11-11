@@ -22,9 +22,9 @@ def generate_iiif_manifest(mmif_str):
                 "id": f"mmif_example_manifest.json/sequence/1",
                 "type": "Sequence",
                 "canvases": [],
-                "structures":[]
             }
-        ]
+        ],
+        "structures":[]
     }
     for id, document_path in enumerate(document_paths, start=1):
         canvas = {
