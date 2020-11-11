@@ -1,5 +1,3 @@
-
-
 from flask import url_for
 def generate_iiif_manifest(mmif_str):
     # mmif_obj = mmif.Mmif(mmif_str)
