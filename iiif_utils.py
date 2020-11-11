@@ -84,5 +84,5 @@ def generate_iiif_manifest(mmif_str):
             '            ]\n'
             '        }\n'
             '    ]\n'
-            '}')
+            '}\n')
 
