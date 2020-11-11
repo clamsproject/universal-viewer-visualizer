@@ -74,28 +74,33 @@ def generate_iiif_manifest(mmif_str):
     tf_views = mmif_obj.get_all_views_contain(AnnotationTypes.TimeFrame.value)
 
     for id, view in enumerate(tf_views):
-        if view.properties["unit"] != "frame":
-            continue
-        start_fn = view.properties["start"]
-        end_fn = view.properties["end"]
-        frame_rate = 29.97
-        frame_type = view.properties.get("frameType")
+        for annotation in view.annotations:
+            if annotation.at_type == AnnotationTypes.TimeFrame.value:
+                if annotation.properties["unit"] != "frame":
+                    continue
+                try:
+                    start_fn = int(annotation.properties["start"])
+                    end_fn = int(annotation.properties["end"])
+                    frame_rate = 29.97
+                    frame_type = annotation.properties["frameType"]
+                    start_sec = start_fn / frame_rate
+                    end_sec = end_fn / frame_rate
 
-        start_sec = start_fn/frame_rate
-        end_sec = end_fn/frame_rate
-
-        structure = {
-            "id":f"mmif_example_manifest.json/range/{id}",
-            "type":"Range",
-            "label":f"{frame_type}",
-            "members":[
-                {
-                    "id":f"mmif_example_manifest.json/canvas/{1}/t={start_sec},{end_sec}", # need to align id here to support more than one document
-                    "type":"Canvas"
-                }
-            ]
-        }
-        iiif_json["structures"].append(structure)
+                    structure = {
+                        "id": f"mmif_example_manifest.json/range/{id}",
+                        "type": "Range",
+                        "label": f"{frame_type}",
+                        "members": [
+                            {
+                                "id": f"mmif_example_manifest.json/canvas/{1}/t={start_sec},{end_sec}",
+                            # need to align id here to support more than one document
+                                "type": "Canvas"
+                            }
+                        ]
+                    }
+                    iiif_json["structures"].append(structure)
+                except:
+                    continue
 
     # # generate a iiif manifest and save output file
     with open(os.path.join("temp", "manifests", "manifest.json"), "w") as out:
