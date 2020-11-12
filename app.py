@@ -34,12 +34,8 @@ def display_file():
 
 
 def upload_display(filename):
-    raise NotImplementedError
-    # f = open("temp/" + filename)
-    # mmif_str = f.read()
-    # f.close()
-    # return display_iiif()
-
+    generate_iiif_manifest(open(os.path.join("temp", filename)).read())
+    return display_iiif()
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
