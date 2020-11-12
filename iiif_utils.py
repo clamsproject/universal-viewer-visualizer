@@ -79,7 +79,10 @@ def generate_iiif_manifest(mmif_str):
     for id, view in enumerate(tf_views, start=1):
         for annotation in view.annotations:
             if annotation.at_type == AnnotationTypes.TimeFrame.value:
-                annotation_unit = view.medata.contains[AnnotationTypes.TimeFrame.value].get('unit', annotation.properties.get('unit', None))
+                if 'unit' in view.metadata.contains[AnnotationTypes.TimeFrame.value]:
+                    annotation_unit = view.metadata.contains[AnnotationTypes.TimeFrame.value]['unit']
+                else:
+                    annotation_unit = annotation.properties['unit']
                 if annotation_unit != "frame":
                     continue
                 start_fn = int(annotation.properties["start"])
