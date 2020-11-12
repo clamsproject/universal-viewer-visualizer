@@ -81,7 +81,7 @@ def generate_iiif_manifest(mmif_str):
     # # get all views with timeframe annotations from mmif obj
     tf_views = mmif_obj.get_all_views_contain(AnnotationTypes.TimeFrame.value)
 
-    for id, view in enumerate(tf_views, start=1):
+    for view in tf_views:
         for annotation in view.annotations:
             if annotation.at_type == AnnotationTypes.TimeFrame.value:
                 if 'unit' in view.metadata.contains[AnnotationTypes.TimeFrame.value]:
@@ -92,7 +92,6 @@ def generate_iiif_manifest(mmif_str):
                     start_fn = int(annotation.properties["start"])
                     end_fn = int(annotation.properties["end"])
                     frame_rate = 29.97
-                    frame_type = annotation.properties["frameType"]
                     start_sec = int(start_fn // frame_rate)
                     end_sec = int(end_fn // frame_rate)
                 elif annotation_unit == "milliseconds":
@@ -102,8 +101,9 @@ def generate_iiif_manifest(mmif_str):
                     end_sec = int(end_milli//1000)
                 else:
                     continue
+                frame_type = annotation.properties["frameType"]
                 structure = {
-                    "id": f"mmif_example_manifest.json/range/{id}",
+                    "id": f"mmif_example_manifest.json/range/{view.id:annotation.id}",
                     "type": "Range",
                     "label": f"{frame_type}",
                     "members": [
