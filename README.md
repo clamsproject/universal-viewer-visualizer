@@ -1,12 +1,10 @@
-# MMIF Visualization 
+# Universal Viewer Web App for CLAMS Galaxy
 
-This web app visualizes different annotation component in a single MMIF file. For details of MMIF format, please refer to the [MMIF website](https://mmif.clams.ai). 
-
+This web app generates a IIIF manifest from an MMIF and displays the result using Universal Viewer.
 ## Supported annotation
 
-1. Video or Audio file player via HTML5
-1. raw and pretty-printed MMIF contents (MMIF is syntactically JSON)
-1. NE annotations via [displaCy](https://explosion.ai/demos/displacy-ent)
+1. Video Document Type
+1. TimeFrame Annotation Types
 
 ## Installation 
 
