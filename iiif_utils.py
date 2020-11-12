@@ -8,10 +8,15 @@ import shutil
 def generate_iiif_manifest(mmif_str):
     mmif_obj = mmif.Mmif(mmif_str)
     ## get all videos todo make this work for audio too
-    document_paths = [
+    video_paths = [
         doc.properties["location"]
         for doc in mmif_obj.get_documents_by_type(DocumentTypes.VideoDocument)
     ]
+    audio_paths = [
+        doc.properties["location"]
+        for doc in mmif_obj.get_documents_by_type(DocumentTypes.AudioDocument)
+    ]
+    document_paths = video_paths + audio_paths
     iiif_json = {
         "@context": "http://iiif.io/api/presentation/2/context.json",
         "id": "mmif_example_manifest.json",
