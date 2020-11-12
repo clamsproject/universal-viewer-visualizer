@@ -88,11 +88,11 @@ def generate_iiif_manifest(mmif_str):
                     annotation_unit = view.metadata.contains[AnnotationTypes.TimeFrame.value]['unit']
                 else:
                     annotation_unit = annotation.properties['unit']
+                frame_type = annotation.properties["frameType"]
                 if annotation_unit == "frame":
                     start_fn = int(annotation.properties["start"])
                     end_fn = int(annotation.properties["end"])
                     frame_rate = 29.97
-                    frame_type = annotation.properties["frameType"]
                     start_sec = int(start_fn // frame_rate)
                     end_sec = int(end_fn // frame_rate)
                 elif annotation_unit == "milliseconds":
