@@ -88,15 +88,20 @@ def generate_iiif_manifest(mmif_str):
                     annotation_unit = view.metadata.contains[AnnotationTypes.TimeFrame.value]['unit']
                 else:
                     annotation_unit = annotation.properties['unit']
-                if annotation_unit != "frame":
+                if annotation_unit == "frame":
+                    start_fn = int(annotation.properties["start"])
+                    end_fn = int(annotation.properties["end"])
+                    frame_rate = 29.97
+                    frame_type = annotation.properties["frameType"]
+                    start_sec = int(start_fn // frame_rate)
+                    end_sec = int(end_fn // frame_rate)
+                elif annotation_unit == "milliseconds":
+                    start_milli = int(annotation.properties["start"])
+                    end_milli = int(annotation.properties["end"])
+                    start_sec = int(start_milli//1000)
+                    end_sec = int(end_milli//1000)
+                else:
                     continue
-                start_fn = int(annotation.properties["start"])
-                end_fn = int(annotation.properties["end"])
-                frame_rate = 29.97
-                frame_type = annotation.properties["frameType"]
-                start_sec = int(start_fn // frame_rate)
-                end_sec = int(end_fn // frame_rate)
-
                 structure = {
                     "id": f"mmif_example_manifest.json/range/{id}",
                     "type": "Range",
