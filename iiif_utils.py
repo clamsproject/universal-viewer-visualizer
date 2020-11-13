@@ -83,7 +83,8 @@ def generate_iiif_manifest(mmif_str):
     # # get all views with timeframe annotations from mmif obj
     tf_views = mmif_obj.get_all_views_contain(AnnotationTypes.TimeFrame.value)
 
-    for _id, view in enumerate(tf_views, start=1):
+    range_id = 1
+    for view in tf_views:
         for annotation in view.annotations:
             if annotation.at_type == AnnotationTypes.TimeFrame.value:
                 if 'unit' in view.metadata.contains[AnnotationTypes.TimeFrame.value]:
@@ -106,7 +107,7 @@ def generate_iiif_manifest(mmif_str):
                     continue
                 frame_type = annotation.properties["frameType"]
                 structure = {
-                    "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/range/{_id}",
+                    "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/range/{range_id}",
                     "type": "Range",
                     "label": f"{frame_type}",
                     "members": [
@@ -118,6 +119,7 @@ def generate_iiif_manifest(mmif_str):
                     ]
                 }
                 iiif_json["structures"].append(structure)
+                range_id += 1
     # # generate a iiif manifest and save output file
     manifest = tempfile.NamedTemporaryFile('w', dir="static/", suffix='.json', delete=False)
     json.dump(iiif_json, manifest, indent=4)
