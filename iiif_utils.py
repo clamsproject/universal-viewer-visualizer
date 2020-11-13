@@ -1,5 +1,7 @@
 import json
 import os
+import tempfile
+
 import mmif
 from mmif import AnnotationTypes, DocumentTypes
 import shutil
@@ -118,6 +120,6 @@ def generate_iiif_manifest(mmif_str):
 
 
     # # generate a iiif manifest and save output file
-    with open(os.path.join("temp", "manifests", "manifest.json"), "w") as out:
-        json.dump(iiif_json, out, indent=4)
-    return
+    manifest = tempfile.NamedTemporaryFile('w', dir="static/", suffix='.json', delete=False)
+    json.dump(iiif_json, manifest, indent=4)
+    return manifest.name

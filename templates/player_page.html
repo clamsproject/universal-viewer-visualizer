@@ -26,7 +26,7 @@
         window.addEventListener('uvLoaded', function (e) {
 
             myUV = createUV('#uv', {
-                iiifResourceUri: "temp/manifests/manifest.json",
+                iiifResourceUri:"{{ "static/" + manifest }}",
                 configUri: 'uv/uv-config.json'
             }, new UV.URLDataProvider());
 
