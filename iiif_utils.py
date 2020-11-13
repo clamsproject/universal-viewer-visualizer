@@ -104,6 +104,7 @@ def generate_iiif_manifest(mmif_str):
                     end_sec = int(end_milli//1000)
                 else:
                     continue
+                frame_type = annotation.properties["frameType"]
                 structure = {
                     "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/range/{_id}",
                     "type": "Range",
