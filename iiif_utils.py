@@ -1,5 +1,7 @@
 import json
 import os
+import tempfile
+
 import mmif
 from mmif import AnnotationTypes, DocumentTypes
 import shutil
@@ -19,13 +21,13 @@ def generate_iiif_manifest(mmif_str):
     document_paths = video_paths + audio_paths
     iiif_json = {
         "@context": "http://iiif.io/api/presentation/2/context.json",
-        "id": "mmif_example_manifest.json",
+        "id": "http://0.0.0.0:5000/mmif_example_manifest.json",
         "type": "Manifest",
         "label": "NewsHour Sample",
         "description": "A sample AAPB video",
         "sequences":[
             {
-                "id": f"mmif_example_manifest.json/sequence/1",
+                "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/sequence/1",
                 "type": "Sequence",
                 "canvases": [],
             }
@@ -34,7 +36,7 @@ def generate_iiif_manifest(mmif_str):
     }
     for id, document_path in enumerate(document_paths, start=1):
         canvas = {
-            "id": f"mmif_example_manifest.json/canvas/{id}",
+            "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/canvas/{id}",
             "type": "Canvas",
             "label": "NewsHour",
             "height": 360,
@@ -63,7 +65,7 @@ def generate_iiif_manifest(mmif_str):
                                     ]
                                 }
                             ],
-                            "target":f"mmif_example_manifest.json/canvas/{id}"
+                            "target":f"http://0.0.0.0:5000/mmif_example_manifest.json/canvas/{id}"
                         }
                     ],
                 }
@@ -81,13 +83,14 @@ def generate_iiif_manifest(mmif_str):
     # # get all views with timeframe annotations from mmif obj
     tf_views = mmif_obj.get_all_views_contain(AnnotationTypes.TimeFrame.value)
 
-    for view in tf_views:
+    for _id, view in enumerate(tf_views, start=1):
         for annotation in view.annotations:
             if annotation.at_type == AnnotationTypes.TimeFrame.value:
                 if 'unit' in view.metadata.contains[AnnotationTypes.TimeFrame.value]:
                     annotation_unit = view.metadata.contains[AnnotationTypes.TimeFrame.value]['unit']
                 else:
                     annotation_unit = annotation.properties['unit']
+                frame_type = annotation.properties["frameType"]
                 if annotation_unit == "frame":
                     start_fn = int(annotation.properties["start"])
                     end_fn = int(annotation.properties["end"])
@@ -103,21 +106,19 @@ def generate_iiif_manifest(mmif_str):
                     continue
                 frame_type = annotation.properties["frameType"]
                 structure = {
-                    "id": f"mmif_example_manifest.json/range/{view.id:annotation.id}",
+                    "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/range/{_id}",
                     "type": "Range",
                     "label": f"{frame_type}",
                     "members": [
                         {
-                            "id": f"mmif_example_manifest.json/canvas/{1}#t={start_sec},{end_sec}",
+                            "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/canvas/{1}#t={start_sec},{end_sec}",
                         # need to align id here to support more than one document
                             "type": "Canvas"
                         }
                     ]
                 }
                 iiif_json["structures"].append(structure)
-
-
     # # generate a iiif manifest and save output file
-    with open(os.path.join("temp", "manifests", "manifest.json"), "w") as out:
-        json.dump(iiif_json, out, indent=4)
-    return
+    manifest = tempfile.NamedTemporaryFile('w', dir="static/", suffix='.json', delete=False)
+    json.dump(iiif_json, manifest, indent=4)
+    return manifest.name
