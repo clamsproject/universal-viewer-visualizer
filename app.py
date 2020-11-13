@@ -19,8 +19,9 @@ def send_temp(path):
     return send_from_directory("temp", path)
 
 
-def display_iiif():
-    return render_template('player_page.html')
+def display_iiif(manifest_filename):
+    manifest_filename = os.path.basename(manifest_filename)
+    return render_template('player_page.html', manifest=manifest_filename)
 
 
 @app.route('/display')
@@ -29,13 +30,13 @@ def display_file():
         mmif_str = requests.get(request.args["file"]).text
     except:
         mmif_str = open("temp/mmif/cpb-aacip-507-0z70v8b343.mp4.mmif").read()
-    generate_iiif_manifest(mmif_str)
-    return display_iiif()
+    manifest_filename = generate_iiif_manifest(mmif_str)
+    return display_iiif(manifest_filename)
 
 
 def upload_display(filename):
-    generate_iiif_manifest(open(os.path.join("temp", filename)).read())
-    return display_iiif()
+    manifest_filename = generate_iiif_manifest(open(os.path.join("temp", filename)).read())
+    return display_iiif(manifest_filename)
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
