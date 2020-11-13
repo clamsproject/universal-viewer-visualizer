@@ -1,6 +1,7 @@
 import json
 import os
 import tempfile
+from moviepy.editor import VideoFileClip
 
 import mmif
 from mmif import AnnotationTypes, DocumentTypes
@@ -35,13 +36,18 @@ def generate_iiif_manifest(mmif_str):
         "structures":[]
     }
     for id, document_path in enumerate(document_paths, start=1):
+        if document_path.endswith(".mp4"):
+            clip = VideoFileClip(document_path)
+            dur = int(clip.duration) + 1
+        else:
+            dur = 660
         canvas = {
             "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/canvas/{id}",
             "type": "Canvas",
             "label": "NewsHour",
             "height": 360,
             "width": 480,
-            "duration": 660,
+            "duration": dur,
             "content": [
                 {
                     "id": "...",
