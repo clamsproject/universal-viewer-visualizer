@@ -116,7 +116,7 @@ def generate_iiif_manifest(mmif_str):
                 structure = {
                     "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/range/{range_id}",
                     "type": "Range",
-                    "label": f"{frame_type}",
+                    "label": f"{frame_type.capitalize()}",
                     "members": [
                         {
                             "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/canvas/{1}#t={start_sec},{end_sec}",
