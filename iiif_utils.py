@@ -91,6 +91,14 @@ def generate_iiif_manifest(mmif_str):
 
     range_id = 1
     for view in tf_views:
+        view_range = {
+            "id":f"http://0.0.0.0:5000/mmif_example_manifest.json/range/{range_id}",
+            "type":"Range",
+            "label":f"View: {view.id}",
+            "members":[]
+        }
+        range_id += 1
+
         for annotation in view.annotations:
             if annotation.at_type == AnnotationTypes.TimeFrame.value:
                 if 'unit' in view.metadata.contains[AnnotationTypes.TimeFrame.value]:
@@ -115,7 +123,7 @@ def generate_iiif_manifest(mmif_str):
                 structure = {
                     "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/range/{range_id}",
                     "type": "Range",
-                    "label": f"{frame_type}",
+                    "label": f"{frame_type.capitalize()}",
                     "members": [
                         {
                             "id": f"http://0.0.0.0:5000/mmif_example_manifest.json/canvas/{1}#t={start_sec},{end_sec}",
@@ -124,8 +132,9 @@ def generate_iiif_manifest(mmif_str):
                         }
                     ]
                 }
-                iiif_json["structures"].append(structure)
                 range_id += 1
+                view_range["members"].append(structure)
+        iiif_json["structures"].append(view_range)
     # # generate a iiif manifest and save output file
     manifest = tempfile.NamedTemporaryFile('w', dir="static/", suffix='.json', delete=False)
     json.dump(iiif_json, manifest, indent=4)
