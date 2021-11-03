@@ -1,4 +1,3 @@
-import os
 import requests
 
 from flask import Flask, request, render_template, flash, redirect, send_from_directory
@@ -19,7 +18,17 @@ def send_temp(path):
     return send_from_directory("temp", path)
 
 
-def display_iiif(manifest_filename):
+@app.route('/alto/<path:path>')
+def send_alto(path):
+    return send_from_directory("../data/alto", path)
+
+
+@app.route('/mmif/<path:path>')
+def send_mmif(path):
+    return send_from_directory("../data/mmif", path)
+
+
+def display_iiif(manifest_filename):  # todo 6/16/21 kelleylynch support a list of filenames
     manifest_filename = os.path.basename(manifest_filename)
     return render_template('player_page.html', manifest=manifest_filename)
 
@@ -28,15 +37,20 @@ def display_iiif(manifest_filename):
 def display_file():
     try:
         mmif_str = requests.get(request.args["file"]).text
+        manifest_filename = generate_iiif_manifest(mmif_str)
     except:
-        mmif_str = open("temp/mmif/cpb-aacip-507-0z70v8b343.mp4.mmif").read()
-    manifest_filename = generate_iiif_manifest(mmif_str)
+        manifest_filename = "static/old_manifest.json"
     return display_iiif(manifest_filename)
 
 
-def upload_display(filename):
+def upload_display(filename: str):
+    '''
+    :param filename:
+    :return:
+    '''
     manifest_filename = generate_iiif_manifest(open(os.path.join("temp", filename)).read())
     return display_iiif(manifest_filename)
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
@@ -66,11 +80,5 @@ def upload_file():
     '''
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
-
 if __name__ == '__main__':
-    # TODO (krim @ 10/1/19): parameterize port number
-    app.run(port=5000, host='0.0.0.0', debug=True)
+    app.run()

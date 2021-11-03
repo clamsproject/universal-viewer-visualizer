@@ -1,4 +1,4 @@
-# Universal Viewer Web App for CLAMS Galaxy
+# Universal Viewer Web App for CLAMS/MMIF
 
 This web app generates a IIIF manifest from an MMIF and displays the result using Universal Viewer.
 ## Supported annotation
