@@ -80,7 +80,7 @@ def add_canvas_from_documents(in_mmif, iiif_json):
         #         f"static{os.path.basename(document.location_path())}"
         #     )
         iiif_json["sequences"][0]["canvases"].append(canvas)
-
+        break # todo currently only supports single document, needs more work to align canvas values
 
 def build_document_url(document):
     '''
