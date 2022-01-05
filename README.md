@@ -1,23 +1,25 @@
 # Universal Viewer Web App for CLAMS/MMIF
 
 This web app generates a IIIF manifest from an MMIF and displays the result using Universal Viewer.
+
 ## Supported annotation
 
 1. Video Document Type
 1. TimeFrame Annotation Types
 
-## Installation 
+## Installation via Docker 
 
-## via Docker 
+Download or clone this repository and build a docker image using the `Dockerfile`.
 
-Running via [docker](https://www.docker.com/) is preferred way. Download or clone this repository and build a image using `Dockerfile`, by running the command 
+```git clone https://github.com/clamsproject/universal-viewer-visualizer.git```
+
+```cd universal-viewer-visualizer```
 
 ```docker image build . -t uv_consumer```
 
-Once the image is ready, run it with container port 5000 is exposed (`-p XXXX:5000`) and data repository is mounted inside `/app/static` directory of the container using  the command, ```docker run uv_consumer -it -p 5000:5000 -v /path/to/data/directory:/app/universal-viewer-consumer/static```
-' See the last section for more details on data repository.
+Once the image is ready, run it with container port 5000  exposed (`-p XXXX:5000`) and data repository is mounted inside `/app/static` directory of the container using  the command, ```docker run uv_consumer -it -p 5000:5000 -v /path/to/data/directory:/app/universal-viewer-consumer/static```
 
-## Native installation
+## Native Installation
 
 ### Requirements
 
@@ -25,9 +27,36 @@ Once the image is ready, run it with container port 5000 is exposed (`-p XXXX:50
 1. git command line interface
 
 ### Instruction
-Simply clone this repository and install python dependencies listed in `requirements.txt`. Copy, symlink, or mount your primary data source into `static` directory. See next section for more details. 
+First clone this repository and install python dependencies listed in `requirements.txt`.
 
-And then copy (or symlink/mount) your primary data source into `static` directory. 
+```git clone https://github.com/clamsproject/universal-viewer-visualizer.git```
 
-# Data source repository. 
-Data source includes video, audio, and text (transcript) files that are subjects for the CLAMS analysis tools. To make this visualizer accessible to those files and able to display the contents on the web browser, source files needs to be located inside `static` directory. For example, if the path to a source file encoded in the MMIF is `/local/path/to/data/some-video-file.mp4`, the same file must exist as `static/local/path/to/data/some-video-file.mp4`. 
+```cd universal-viewer-visualizer```
+
+```pip install -r requirements.txt```
+
+Copy, symlink, or mount your primary data source into `static` directory. The data folder should have a subfolder named `video`.
+
+```ln -s /Users/shared/archive static/data```
+
+Where the directory `/Users/shared/archive` contains the subdirectory `video`, containing the media files referenced by the mmif.
+
+Set the `FLASK_APP` environment variable. 
+
+```export FLASK_APP=app.py```
+
+Run the flask app. By default the app will run on port 5000. To specify a different port using the command line option to the flask run command.
+
+```flask run```
+
+or to run on port 5001, for example:
+
+```flask run -p 5002```
+
+With the app running, visit 0.0.0.0/upload to upload an mmif file. 
+
+***Note***
+The video location from the mmif is modified before being added to the iiif manifest. The modified filename consists of `data/video/{original_filename}`. This is to allow mmif's that result from local processing to be able to be used with this tool, assuming the data directory is linked as expected.
+
+
+
