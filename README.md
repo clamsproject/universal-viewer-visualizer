@@ -17,7 +17,9 @@ Download or clone this repository and build a docker image using the `Dockerfile
 
 ```docker image build . -t uv_consumer```
 
-Once the image is ready, run it with container port 5000  exposed (`-p XXXX:5000`) and data repository is mounted inside `/app/static` directory of the container using  the command, ```docker run uv_consumer -it -p 5000:5000 -v /path/to/data/directory:/app/universal-viewer-consumer/static```
+Once the image is ready, run it with container port 5000  exposed (`-p XXXX:5000`) and data repository is mounted inside `/app/static` directory of the container using  the command, ```docker run --rm -p 5000:5000 -v /Users/shared/data/clams/:/app/static/data uv_consumer```
+
+With the app running, visit 0.0.0.0:5000/upload to upload an mmif file.
 
 ## Native Installation
 
@@ -53,7 +55,7 @@ or to run on port 5001, for example:
 
 ```flask run -p 5002```
 
-With the app running, visit 0.0.0.0/upload to upload an mmif file. 
+With the app running, visit 0.0.0.0:5000/upload to upload an mmif file. 
 
 ***Note***
 The video location from the mmif is modified before being added to the iiif manifest. The modified filename consists of `data/video/{original_filename}`. This is to allow mmif's that result from local processing to be able to be used with this tool, assuming the data directory is linked as expected.
