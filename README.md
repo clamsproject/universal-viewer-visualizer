@@ -61,4 +61,8 @@ With the app running, visit 0.0.0.0:5000/upload to upload an mmif file.
 The video location from the mmif is modified before being added to the iiif manifest. The modified filename consists of `data/video/{original_filename}`. This is to allow mmif's that result from local processing to be able to be used with this tool, assuming the data directory is linked as expected.
 
 
-
+### Example MMIF
+The following mmif can be used to test the tool.
+```json
+{"metadata": {"mmif": "http://mmif.clams.ai/0.4.0"}, "documents": [{"@type": "http://mmif.clams.ai/0.4.0/vocabulary/VideoDocument", "properties": {"mime": "video", "id": "d1", "location": "file:///data/clams/video/cpb-aacip-259-mp4vm595.h264.mp4"}}], "views": [{"id": "v_0", "metadata": {"timestamp": "2022-01-03T16:35:27.965525", "app": "http://mmif.clams.ai/apps/slatedetect/0.1", "contains": {"http://mmif.clams.ai/0.4.0/vocabulary/TimeFrame": {"timeUnit": "milliseconds", "document": "d1"}}, "parameters": {"timeUnit": "milliseconds", "sampleRatio": "10", "stopAt": "30", "stopAfterOne": "True", "minFrameCount": "10", "threshold": "0.5"}}, "annotations": [{"@type": "http://mmif.clams.ai/0.4.0/vocabulary/TimeFrame", "properties": {"start": 0, "end": 1034, "frameType": "slate", "id": "tf_1"}}]}]}
+```
