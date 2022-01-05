@@ -1,14 +1,15 @@
 import json
 import os
 import tempfile
+from typing import Dict
+
 import mmif
-from mmif import AnnotationTypes, DocumentTypes
-import shutil
+from flask import url_for
+from mmif import AnnotationTypes, DocumentTypes, Mmif
 import datetime
 
 
-def generate_iiif_manifest(in_mmif: str):
-    in_mmif = mmif.Mmif(in_mmif)
+def generate_iiif_manifest(in_mmif: mmif.Mmif):
     iiif_json = {
         "@context": "http://iiif.io/api/presentation/2/context.json",
         "id": "http://0.0.0.0:5000/mmif_example_manifest.json",
@@ -59,7 +60,7 @@ def add_canvas_from_documents(in_mmif, iiif_json):
                                     "choiceHint": "user",
                                     "items": [
                                         {
-                                            "id": f"static{document.location_path()}",
+                                            "id": build_document_url(document),
                                             "type": get_iiif_type(document),
                                             "label": "",
                                             "format": get_iiif_format(document)
@@ -73,17 +74,29 @@ def add_canvas_from_documents(in_mmif, iiif_json):
                 }
             ],
         }
-        if not os.path.isfile(f"static{document.location_path()}"):
-            shutil.copyfile(
-                # f"{document_path}",
-                f"{document.location_path()}",
-                # f"static{document_path}"
-                f"static{os.path.basename(document.location_path())}"
-            )
+        # if not os.path.isfile(f"static{document.location_path()}"):
+        #     shutil.copyfile(
+        #         f"{document.location_path()}",
+        #         f"static{os.path.basename(document.location_path())}"
+        #     )
         iiif_json["sequences"][0]["canvases"].append(canvas)
 
 
-def add_structure_from_timeframe(in_mmif, iiif_json):
+def build_document_url(document):
+    '''
+    This trims off all of the path to the document except the filename then prepends data/video/. This is so
+    mmif's from running locally can still be found if the viewe
+    r is run in docker, assuming the volume mount or
+    symlink is correctly set.
+    '''
+    location = document.location
+    if location.startswith("file://"):
+        location = document.location[7:]
+    file_path = os.path.join("data", "video", os.path.basename(location))
+    return url_for('static', filename=file_path)
+
+
+def add_structure_from_timeframe(in_mmif: Mmif, iiif_json: Dict):
     # # get all views with timeframe annotations from mmif obj
     tf_views = in_mmif.get_views_contain(AnnotationTypes.TimeFrame)
     for range_id, view in enumerate(tf_views, start=1):
@@ -91,7 +104,7 @@ def add_structure_from_timeframe(in_mmif, iiif_json):
         iiif_json["structures"].append(view_range)
 
 
-def save_manifest(iiif_json):
+def save_manifest(iiif_json: Dict) -> str:
     # generate a iiif manifest and save output file
     manifest = tempfile.NamedTemporaryFile('w', dir="static/", suffix='.json', delete=False)
     json.dump(iiif_json, manifest, indent=4)

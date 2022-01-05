@@ -1,7 +1,5 @@
 import requests
-
-from flask import Flask, request, render_template, flash, redirect, send_from_directory
-from werkzeug.utils import secure_filename
+from flask import Flask, request, render_template, flash, redirect, send_from_directory, abort
 
 from iiif_utils import *
 
@@ -11,21 +9,6 @@ app = Flask(__name__)
 @app.route('/uv/<path:path>')
 def send_js(path):
     return send_from_directory("uv", path)
-
-
-@app.route('/temp/<path:path>')
-def send_temp(path):
-    return send_from_directory("temp", path)
-
-
-@app.route('/alto/<path:path>')
-def send_alto(path):
-    return send_from_directory("../data/alto", path)
-
-
-@app.route('/mmif/<path:path>')
-def send_mmif(path):
-    return send_from_directory("../data/mmif", path)
 
 
 def display_iiif(manifest_filename):  # todo 6/16/21 kelleylynch support a list of filenames
@@ -39,16 +22,16 @@ def display_file():
         mmif_str = requests.get(request.args["file"]).text
         manifest_filename = generate_iiif_manifest(mmif_str)
     except:
-        manifest_filename = "static/old_manifest.json"
+        return abort(404)
     return display_iiif(manifest_filename)
 
 
-def upload_display(filename: str):
+def upload_display(mmif: Mmif):
     '''
-    :param filename:
+    :param mmif:
     :return:
     '''
-    manifest_filename = generate_iiif_manifest(open(os.path.join("temp", filename)).read())
+    manifest_filename = generate_iiif_manifest(mmif)
     return display_iiif(manifest_filename)
 
 
@@ -66,9 +49,10 @@ def upload_file():
             flash('No selected file')
             return redirect(request.url)
         if file:
-            filename = secure_filename(file.filename)
-            file.save(os.path.join('temp', filename))
-            return upload_display(filename)
+            # filename = secure_filename(file.filename)
+            # file.save(os.path.join('temp', filename))
+            mmif = Mmif(file.read())
+            return upload_display(mmif)
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -81,4 +65,4 @@ def upload_file():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0")

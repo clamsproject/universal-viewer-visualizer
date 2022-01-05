@@ -10,7 +10,12 @@ This web app generates a IIIF manifest from an MMIF and displays the result usin
 
 ## via Docker 
 
-Running via [docker](https://www.docker.com/) is preferred way. Download or clone this repository and build a image using `Dockerfile`. Once the image is ready, run it with container port 5000 is exposed (`-p XXXX:5000`) and data repository is mounted inside `/app/static` directory of the container. See the last section for more details on data repository.  
+Running via [docker](https://www.docker.com/) is preferred way. Download or clone this repository and build a image using `Dockerfile`, by running the command 
+
+```docker image build . -t uv_consumer```
+
+Once the image is ready, run it with container port 5000 is exposed (`-p XXXX:5000`) and data repository is mounted inside `/app/static` directory of the container using  the command, ```docker run uv_consumer -it -p 5000:5000 -v /path/to/data/directory:/app/universal-viewer-consumer/static```
+' See the last section for more details on data repository.
 
 ## Native installation
 

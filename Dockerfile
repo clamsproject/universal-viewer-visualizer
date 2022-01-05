@@ -1,11 +1,12 @@
 FROM clamsproject/clams-python-opencv4
 
-RUN apt-get update && \
-    apt-get install -y git python3 python3-pip python3-setuptools
+COPY ./requirements.txt /app/requirements.txt
+WORKDIR /app
 
-COPY ./ ./app
-WORKDIR ./app
-RUN pip3 install -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+COPY ./ /app
+WORKDIR /app
+
+CMD ["python", "app.py"]
