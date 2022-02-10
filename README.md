@@ -17,9 +17,11 @@ Download or clone this repository and build a docker image using the `Dockerfile
 
 ```docker image build . -t uv_consumer```
 
-Once the image is ready, run it with container port 5000  exposed (`-p XXXX:5000`) and data repository is mounted inside `/app/static` directory of the container using  the command, ```docker run --rm -p 5000:5000 -v /Users/shared/data/clams/:/app/static/data uv_consumer```
+Once the image is ready, run it with container port 5000  exposed (`-p XXXX:5000`) and data repository is mounted inside `/app/static` directory of the container using  the command
 
-With the app running, visit 0.0.0.0:5000/upload to upload an mmif file.
+```docker run --rm -p 5000:5000 -v /Users/shared/data/clams/:/app/static/data uv_consumer```
+
+With the app running, visit [http://0.0.0.0:5000/upload](http://0.0.0.0:5000/upload) to upload an mmif file.
 
 ## Native Installation
 
@@ -53,9 +55,9 @@ Run the flask app. By default the app will run on port 5000. To specify a differ
 
 or to run on port 5001, for example:
 
-```flask run -p 5002```
+```flask run -p 5001```
 
-With the app running, visit 0.0.0.0:5000/upload to upload an mmif file. 
+With the app running, visit [http://0.0.0.0:5000/upload](http://0.0.0.0:5000/upload) to upload an mmif file.
 
 ***Note***
 The video location from the mmif is modified before being added to the iiif manifest. The modified filename consists of `data/video/{original_filename}`. This is to allow mmif's that result from local processing to be able to be used with this tool, assuming the data directory is linked as expected.
@@ -66,3 +68,5 @@ The following mmif can be used to test the tool.
 ```json
 {"metadata": {"mmif": "http://mmif.clams.ai/0.4.0"}, "documents": [{"@type": "http://mmif.clams.ai/0.4.0/vocabulary/VideoDocument", "properties": {"mime": "video", "id": "d1", "location": "file:///data/clams/video/cpb-aacip-259-mp4vm595.h264.mp4"}}], "views": [{"id": "v_0", "metadata": {"timestamp": "2022-01-03T16:35:27.965525", "app": "http://mmif.clams.ai/apps/slatedetect/0.1", "contains": {"http://mmif.clams.ai/0.4.0/vocabulary/TimeFrame": {"timeUnit": "milliseconds", "document": "d1"}}, "parameters": {"timeUnit": "milliseconds", "sampleRatio": "10", "stopAt": "30", "stopAfterOne": "True", "minFrameCount": "10", "threshold": "0.5"}}, "annotations": [{"@type": "http://mmif.clams.ai/0.4.0/vocabulary/TimeFrame", "properties": {"start": 0, "end": 1034, "frameType": "slate", "id": "tf_1"}}]}]}
 ```
+
+This file is in this repository as `example1.mmif`. For it to work you need access to `cpb-aacip-259-mp4vm595.h264.mp4`. There is also a file `example2.mmif` that adds some random timeframes, but it also assumes you have some video file available that is not in this repository.
