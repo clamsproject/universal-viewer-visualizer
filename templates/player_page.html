@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="/uv/uv.css">
-    <script src="/uv/lib/offline.js"></script>
-    <script src="/uv/helpers.js"></script>
+
+    <!-- import UV -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/universalviewer@4.0.0/dist/uv.css"
+    />
+    <script
+      type="application/javascript"
+      src="https://cdn.jsdelivr.net/npm/universalviewer@4.0.0/dist/umd/UV.js"
+    ></script>
+
     <title>UV Hello World</title>
     <style>
         #uv {
@@ -21,24 +29,22 @@
 
     <script>
 
-        var myUV;
+      const data = {
+        manifest: "/static/{{manifest}}",
+        embedded: true
+      };
 
-        window.addEventListener('uvLoaded', function (e) {
+      var myUV = UV.init("uv", data);
 
-            myUV = createUV('#uv', {
-                iiifResourceUri:"{{ "static/" + manifest }}",
-                configUri: 'uv/uv-config.json'
-            }, new UV.URLDataProvider());
+      // TODO: New UV API doesn't have this property -- need to include logging.
 
-            myUV.on("created", function(obj) {
-                console.log('parsed metadata', myUV.extension.helper.manifest.getMetadata());
-                console.log('raw jsonld', myUV.extension.helper.manifest.__jsonld);
-            });
+      // myUV.on("created", function(obj) {
+      //           console.log('parsed metadata', myUV.extension.helper.manifest.getMetadata());
+      //           console.log('raw jsonld', myUV.extension.helper.manifest.__jsonld);
+      //       });
 
-        }, false);
 
     </script>
 
-    <script src="/uv/uv.js"></script>
 </body>
 </html>
